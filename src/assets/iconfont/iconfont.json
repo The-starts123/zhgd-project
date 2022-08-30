@@ -1,0 +1,86 @@
+{
+  "id": "3617286",
+  "name": "智慧工地",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "15494",
+      "name": "地图",
+      "font_class": "ditu",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "436380",
+      "name": "应用",
+      "font_class": "52",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "936874",
+      "name": "80%电量",
+      "font_class": "80dianliang",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "4646424",
+      "name": "待办",
+      "font_class": "daiban",
+      "unicode": "e7ef",
+      "unicode_decimal": 59375
+    },
+    {
+      "icon_id": "6150960",
+      "name": "WIFI",
+      "font_class": "WIFI",
+      "unicode": "e76c",
+      "unicode_decimal": 59244
+    },
+    {
+      "icon_id": "7688892",
+      "name": "施工",
+      "font_class": "shigong",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "9148428",
+      "name": "我的",
+      "font_class": "wode",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "12392668",
+      "name": "gf视频监控",
+      "font_class": "gfshipinjiankong",
+      "unicode": "e7cc",
+      "unicode_decimal": 59340
+    },
+    {
+      "icon_id": "18169966",
+      "name": "信号",
+      "font_class": "phone-signal-full",
+      "unicode": "e956",
+      "unicode_decimal": 59734
+    },
+    {
+      "icon_id": "24267336",
+      "name": "大楼2-面型",
+      "font_class": "dalou2-mianxing",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "25327203",
+      "name": "病毒",
+      "font_class": "bingdu",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    }
+  ]
+}
