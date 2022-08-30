@@ -12,8 +12,8 @@
       <div class="header_buttom">
         <span class="title">地图</span>
         <div>
-          <i class="iconfont icon-52"></i>
-          <i class="iconfont icon-ditu" @click="toList"></i>
+          <i class="iconfont icon-rili"></i>
+          <i class="iconfont icon-liebiao" @click="toList"></i>
         </div>
       </div>
     </div>
@@ -49,17 +49,21 @@
     <van-action-sheet v-model="show" :actions="actions" @select="onSelect" />
 
     <!-- 地图 -->
-    <div class="amap-wrapper">
+    <!-- <div class="amap-wrapper">
       <el-amap class="amap-box" :vid="'amap-vue'"></el-amap>
-    </div>
+    </div> -->
+    <MapContainer/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import MapContainer from "../components/MapContainer.vue"
 export default {
   name: "a-map",
-  components: {},
+  components: {
+    MapContainer
+  },
   data() {
     return {
       active: 0,
@@ -68,7 +72,9 @@ export default {
       actions: [{ name: "选项一" }, { name: "选项二" }, { name: "选项三" }],
     };
   },
-  mounted() {},
+  mounted() {
+    
+  },
   methods: {
     onSelect() {
       // 默认情况下点击选项时不会自动收起
@@ -77,8 +83,8 @@ export default {
     },
 
     toList() {
-      this.$router.push("/list")
-    }
+      this.$router.push("/list");
+    },
   },
 };
 </script>
@@ -118,7 +124,7 @@ export default {
       color: #fff;
     }
     .iconfont {
-      font-size: 20px;
+      font-size: 22px;
       color: #fff;
       margin-right: 8px;
     }
@@ -132,6 +138,7 @@ export default {
   top: 142px;
   left: 0;
   z-index: 999;
+  opacity: 0.9;
 }
 .amap-wrapper {
   width: 100%;

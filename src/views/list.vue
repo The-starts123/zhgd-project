@@ -12,8 +12,8 @@
       <div class="header_buttom">
         <span class="title">列表</span>
         <div>
-          <i class="iconfont icon-52"></i>
-          <i class="iconfont icon-ditu" @click="toList"></i>
+          <i class="iconfont icon-rili"></i>
+          <i class="iconfont icon-ditu1" @click="toAmap"></i>
         </div>
       </div>
     </div>
@@ -85,8 +85,8 @@ export default {
       this.show = false;
     },
 
-    toList() {
-      this.$router.push("/list");
+    toAmap() {
+      this.$router.push("/");
     },
   },
 };
@@ -123,12 +123,13 @@ export default {
     .header_buttom {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       .title {
         font-size: 20px;
         color: #fff;
       }
       .iconfont {
-        font-size: 20px;
+        font-size: 22px;
         color: #fff;
         margin-right: 8px;
       }

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11521313",
+      "name": "地图",
+      "font_class": "ditu1",
+      "unicode": "e778",
+      "unicode_decimal": 59256
+    },
+    {
+      "icon_id": "1359164",
+      "name": "错误列表",
+      "font_class": "liebiao",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "11372686",
+      "name": "日历",
+      "font_class": "rili",
+      "unicode": "e8b4",
+      "unicode_decimal": 59572
+    },
+    {
       "icon_id": "15494",
       "name": "地图",
       "font_class": "ditu",
