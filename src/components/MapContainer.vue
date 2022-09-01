@@ -33,9 +33,9 @@ export default {
       path: [
         // 起点
         [121.8153, 29.49],
-        [121.825, 29.506, 121.825, 29.50674],
-        [121.8315, 29.52],
-        [121.835, 29.539],
+        [121.821, 29.497, 121.8245, 29.50674],
+        [121.825, 29.51, 121.8306, 29.52],
+        [121.838, 29.5346, 121.8351, 29.539],
       ],
     };
   },
@@ -106,10 +106,10 @@ export default {
       let _th = this;
       AMap.plugin("AMap.Marker", () => {
         var marker1 = new AMap.Marker({
-          position: new AMap.LngLat(121.8345, 29.539),
+          position: new AMap.LngLat(121.8351, 29.539),
         });
         var marker2 = new AMap.Marker({
-          position: new AMap.LngLat(121.8315, 29.52),
+          position: new AMap.LngLat(121.8306, 29.52),
         });
         var marker3 = new AMap.Marker({
           position: new AMap.LngLat(121.8245, 29.50674),
