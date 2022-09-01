@@ -2,6 +2,20 @@
   <div class="MapContainer">
     <div id="container"></div>
     <div id="panel"></div>
+    <div id="operation">
+      <div>
+        <span class="color_blocks" @click="clear(3)"></span>
+        <span>底基层</span>
+      </div>
+      <div>
+        <span class="color_blocks" @click="clear(2)"></span>
+        <span>路床</span>
+      </div>
+      <div>
+        <span class="color_blocks" @click="clear(1)"></span>
+        <span>路堤</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -10,6 +24,7 @@
 window._AMapSecurityConfig = {
   securityJsCode: "e4d90f3ec296c424d53c09c42fd024de",
 };
+import Vue from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 export default {
   name: "MapContainer",
@@ -30,13 +45,73 @@ export default {
           longitude: 121.311381,
         },
       },
-      path: [
-        // 起点
-        [121.8153, 29.49],
-        [121.821, 29.497, 121.8245, 29.50674],
-        [121.825, 29.51, 121.8306, 29.52],
-        [121.838, 29.5346, 121.8351, 29.539],
-      ],
+
+      bezierCurve1: {
+        path: [
+          // 起点
+          [121.8153, 29.49],
+          [121.821, 29.497, 121.8245, 29.50674],
+          // [121.825, 29.51, 121.8306, 29.52],
+          // [121.838, 29.5346, 121.8351, 29.539],
+        ],
+        isOutline: true,
+        outlineColor: "none",
+        borderWeight: 3,
+        strokeColor: "#01E888",
+        strokeOpacity: 1,
+        strokeWeight: 8,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        strokeDasharray: [10, 10],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 50,
+      },
+      curve1: "",
+      bezierCurve2: {
+        path: [
+          // 起点
+          [121.8245, 29.50674],
+          [121.825, 29.51, 121.8306, 29.52],
+        ],
+        isOutline: true,
+        outlineColor: "none",
+        borderWeight: 3,
+        strokeColor: "#079AE5",
+        strokeOpacity: 1,
+        strokeWeight: 8,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        strokeDasharray: [10, 10],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 50,
+      },
+      curve2: "",
+      bezierCurve3: {
+        path: [
+          // 起点
+          [121.8306, 29.52],
+          [121.838, 29.5346, 121.8351, 29.539],
+        ],
+        isOutline: true,
+        outlineColor: "none",
+        borderWeight: 3,
+        strokeColor: "#FEEE04",
+        strokeOpacity: 1,
+        strokeWeight: 8,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        strokeDasharray: [10, 10],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 50,
+      },
+      curve3: "",
+      count: 0,
     };
   },
   methods: {
@@ -53,14 +128,14 @@ export default {
         .then((AMap) => {
           this.map = new AMap.Map("container", {
             viewMode: "3D", // 是否为3D地图模式
-            zoom: 12, // 初始化地图级别
+            zoom: 13, // 初始化地图级别
             center: [this.params.start.longitude, this.params.start.latitude], // 初始化地图中心点位置
           });
           AMap.plugin(["AMap.ToolBar", "AMap.Scale"], () => {
             this.map.addControl(new AMap.ToolBar());
             this.map.addControl(new AMap.Scale());
           });
-          this.getDriving(this.params); // 驾车线路规划
+          // this.getDriving(this.params); // 驾车线路规划
           // 绘制点
           this.marker();
           // 绘制线
@@ -72,7 +147,7 @@ export default {
     },
 
     getDriving(params) {
-      //构造路线导航类
+      // 构造路线导航类
       AMap.plugin("AMap.Driving", function () {
         var driving = new AMap.Driving({
           // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
@@ -125,43 +200,38 @@ export default {
     bezierCurve() {
       let _th = this;
       AMap.plugin("AMap.BezierCurve", () => {
-        var bezierCurve = new AMap.BezierCurve({
-          path: this.path,
-          isOutline: true,
-          outlineColor: "#ffeeff",
-          borderWeight: 3,
-          strokeColor: "#3366FF",
-          strokeOpacity: 1,
-          strokeWeight: 6,
-          // 线样式还支持 'dashed'
-          strokeStyle: "solid",
-          // strokeStyle是dashed时有效
-          strokeDasharray: [10, 10],
-          lineJoin: "round",
-          lineCap: "round",
-          zIndex: 50,
-        });
-        _th.map.add(bezierCurve);
+        _th.curve1 = new AMap.BezierCurve(_th.bezierCurve1);
+        _th.curve2 = new AMap.BezierCurve(_th.bezierCurve2);
+        _th.curve3 = new AMap.BezierCurve(_th.bezierCurve3);
+        _th.map.add(_th.curve1);
+        _th.map.add(_th.curve2);
+        _th.map.add(_th.curve3);
         // 缩放地图到合适的视野级别
         // _th.map.setFitView([bezierCurve]);
       });
-      AMap.plugin("AMap.BezierCurveEditor", () => {
-        var bezierCurveEditor = new AMap.BezierCurveEditor(
-          _th.map,
-          _th.bezierCurve
-        );
-        bezierCurveEditor.on("addnode", function (event) {
-          log.info("触发事件：addnode");
-        });
-        bezierCurveEditor.on("adjust", function (event) {
-          log.info("触发事件：adjust");
-        });
-        bezierCurveEditor.on("removenode", function (event) {
-          log.info("触发事件：removenode");
-        });
-        bezierCurveEditor.on("end", function (event) {
-          log.info("触发事件： end");
-        });
+    },
+
+    clear(num) {
+      let _th = this;
+      _th.count++;
+      AMap.plugin("AMap.BezierCurve", () => {
+        if (_th.count % 2 != 0) {
+          if (num == 1) {
+            _th.map.remove(_th.curve1);
+          } else if (num == 2) {
+            _th.map.remove(_th.curve2);
+          } else {
+            _th.map.remove(_th.curve3);
+          }
+        } else {
+          if (num == 1) {
+            _th.map.add(_th.curve1);
+          } else if (num == 2) {
+            _th.map.add(_th.curve2);
+          } else {
+            _th.map.add(_th.curve3);
+          }
+        }
       });
     },
   },
@@ -172,11 +242,70 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="less" scoped>
 #container {
   padding: 0px;
   margin: 0px;
   width: 100%;
   height: calc(100vh - 234px);
 }
+#operation {
+  position: fixed;
+  background-color: white;
+  opacity: 0.8;
+  bottom: 175px;
+  left: 10px;
+  width: 84px;
+  height: 150px;
+  border-radius: 10px;
+  padding: 10px;
+  line-height: 35px;
+  div {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    .color_blocks {
+      display: block;
+      width: 20px;
+      height: 8px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+  }
+  div:first-child {
+    .color_blocks {
+      background-color: #feee04;
+    }
+  }
+  div:nth-child(2) {
+    .color_blocks {
+      background-color: #079ae5;
+    }
+  }
+  div:nth-child(3) {
+    .color_blocks {
+      background-color: #01e888;
+    }
+  }
+}
+/* #panel {
+  position: fixed;
+  background-color: white;
+  max-height: 90%;
+  overflow-y: auto;
+  top: 10px;
+  right: 10px;
+  width: 100px;
+  height: 300px;
+}
+#panel .amap-call {
+  background-color: #009cf9;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+#panel .amap-lib-driving {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  overflow: hidden;
+} */
 </style>
