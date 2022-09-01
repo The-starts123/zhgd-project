@@ -12,7 +12,7 @@
       <div class="header_buttom">
         <span class="title">地图</span>
         <div>
-          <i class="iconfont icon-rili"></i>
+          <i class="iconfont icon-rili" @click="showPopup"></i>
           <i class="iconfont icon-liebiao" @click="toList"></i>
         </div>
       </div>
@@ -47,39 +47,49 @@
       class="cell"
     />
     <van-action-sheet v-model="show" :actions="actions" @select="onSelect" />
-
+    <van-calendar v-model="isShow" @confirm="onConfirm" />
     <!-- 地图 -->
     <!-- <div class="amap-wrapper">
       <el-amap class="amap-box" :vid="'amap-vue'"></el-amap>
     </div> -->
-    <MapContainer/>
+    <MapContainer />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import MapContainer from "../components/MapContainer.vue"
+import MapContainer from "../components/MapContainer.vue";
 export default {
   name: "a-map",
   components: {
-    MapContainer
+    MapContainer,
   },
   data() {
     return {
       active: 0,
       value1: 0,
       show: false,
+      isShow: false,
       actions: [{ name: "选项一" }, { name: "选项二" }, { name: "选项三" }],
     };
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     onSelect() {
       // 默认情况下点击选项时不会自动收起
       // 可以通过 close-on-click-action 属性开启自动收起
       this.show = false;
+    },
+
+    showPopup() {
+      this.isShow = true;
+    },
+    formatDate(date) {
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    },
+    onConfirm(date) {
+      this.isShow = false;
+      this.date = this.formatDate(date);
     },
 
     toList() {

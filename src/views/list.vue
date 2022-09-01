@@ -12,7 +12,7 @@
       <div class="header_buttom">
         <span class="title">列表</span>
         <div>
-          <i class="iconfont icon-rili"></i>
+          <i class="iconfont icon-rili" @click="showPopup"></i>
           <i class="iconfont icon-ditu1" @click="toAmap"></i>
         </div>
       </div>
@@ -47,11 +47,12 @@
       class="cell"
     />
     <van-action-sheet v-model="show" :actions="actions" @select="onSelect" />
+    <van-calendar v-model="isShow" @confirm="onConfirm" />
     <div class="list">
       <ul>
         <li class="list_item" v-for="index in 3" :key="index">
           <div>
-            <p class="title">A{{index}}标</p>
+            <p class="title">A{{ index }}标</p>
             <p class="text"><span></span>株坑中桥K3002+487.5</p>
             <p class="text"><span></span>第二跨上部构造预制和安装</p>
             <p class="text"><span></span>梁(板)预制</p>
@@ -74,6 +75,7 @@ export default {
       active: 0,
       value1: 0,
       show: false,
+      isShow: false,
       actions: [{ name: "选项一" }, { name: "选项二" }, { name: "选项三" }],
     };
   },
@@ -83,6 +85,17 @@ export default {
       // 默认情况下点击选项时不会自动收起
       // 可以通过 close-on-click-action 属性开启自动收起
       this.show = false;
+    },
+
+    showPopup() {
+      this.isShow = true;
+    },
+    formatDate(date) {
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    },
+    onConfirm(date) {
+      this.isShow = false;
+      this.date = this.formatDate(date);
     },
 
     toAmap() {
@@ -174,7 +187,7 @@ export default {
         height: 30px;
         border: 1px solid rgba(65, 114, 168, 0.5);
         border-radius: 5px;
-        color: #196CC6;
+        color: #196cc6;
         font-size: 12px;
         text-align: center;
         line-height: 30px;
