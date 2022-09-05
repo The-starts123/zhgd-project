@@ -5,7 +5,7 @@
       <router-link to="/about">About</router-link>
     </nav> -->
     <router-view />
-    <van-tabbar v-model="active" placeholder class="tabbar">
+    <van-tabbar v-model="active" placeholder class="tabbar" v-if="this.$route.meta.show">
       <van-tabbar-item icon="home-o">
         <span>待办</span>
         <template #icon>

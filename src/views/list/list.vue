@@ -58,18 +58,22 @@
             <p class="text"><span></span>梁(板)预制</p>
             <p class="text"><span></span>左幅右侧2-1预应力混凝土空心板(边板)</p>
           </div>
-          <div class="btn">路基</div>
+          <div class="btn" @click="bdDetail">路基</div>
         </li>
       </ul>
     </div>
+    <BdDetail ref="bdDetail" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import BdDetail from "./bdDetail.vue";
 export default {
   name: "list",
-  components: {},
+  components: {
+    BdDetail,
+  },
   data() {
     return {
       active: 0,
@@ -100,6 +104,11 @@ export default {
 
     toAmap() {
       this.$router.push("/");
+    },
+
+    bdDetail() {
+      this.$refs.bdDetail.isShow = true;
+      this.$refs.bdDetail.show = true;
     },
   },
 };

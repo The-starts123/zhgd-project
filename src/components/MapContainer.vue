@@ -163,7 +163,6 @@ export default {
           params.end.longitude,
           params.end.latitude
         );
-        console.log(polyline1, polyline2);
         // 根据起终点经纬度规划驾车导航路线
         driving.search(polyline1, polyline2, function (status, result) {
           console.log(status);
@@ -180,17 +179,34 @@ export default {
     marker() {
       let _th = this;
       AMap.plugin("AMap.Marker", () => {
+        var startIcon = new AMap.Icon({
+          // 图标尺寸
+          size: new AMap.Size(44, 48),
+          // 图标的取图地址
+          image:
+            "https://img1.imgtp.com/2022/09/01/cEI5mRcu.png",
+          // 图标所用图片大小
+          imageSize: new AMap.Size(44, 48),
+          // 图标取图偏移量
+          // imageOffset: new AMap.Pixel(10 , 10),
+        });
+
+
         var marker1 = new AMap.Marker({
-          position: new AMap.LngLat(121.8351, 29.539),
+          position: new AMap.LngLat(121.8308, 29.5462),
+          icon: startIcon,
         });
         var marker2 = new AMap.Marker({
-          position: new AMap.LngLat(121.8306, 29.52),
+          position: new AMap.LngLat(121.8270, 29.5268),
+          icon: startIcon,
         });
         var marker3 = new AMap.Marker({
-          position: new AMap.LngLat(121.8245, 29.50674),
+          position: new AMap.LngLat(121.8205, 29.5135),
+          icon: startIcon,
         });
         var marker4 = new AMap.Marker({
-          position: new AMap.LngLat(121.8153, 29.49),
+          position: new AMap.LngLat(121.8117, 29.4970),
+          icon: startIcon,
         });
         var markerList = [marker1, marker2, marker3, marker4];
         _th.map.add(markerList);
