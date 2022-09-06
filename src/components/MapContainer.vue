@@ -2,20 +2,47 @@
   <div class="MapContainer">
     <div id="container"></div>
     <div id="panel"></div>
+    <div id="btn_box">
+      <div class="btn" @click="wbsList1">
+        <img src="../assets/Group4.png" />
+        <span>WBS</span>
+      </div>
+      <div class="btn" @click="nearby">
+        <img src="../assets/Group1.png" />
+        <span>附 近</span>
+      </div>
+      <div class="btn">
+        <img src="../assets/Group2.png" />
+      </div>
+    </div>
     <div id="operation">
+      <div>
+        <span class="color_blocks" @click="clear(1)"></span>
+        <span>面基</span>
+      </div>
+      <div>
+        <span class="color_blocks" @click="clear(2)"></span>
+        <span>基层</span>
+      </div>
       <div>
         <span class="color_blocks" @click="clear(3)"></span>
         <span>底基层</span>
       </div>
       <div>
-        <span class="color_blocks" @click="clear(2)"></span>
+        <span class="color_blocks" @click="clear(4)"></span>
         <span>路床</span>
       </div>
       <div>
-        <span class="color_blocks" @click="clear(1)"></span>
+        <span class="color_blocks" @click="clear(5)"></span>
         <span>路堤</span>
       </div>
+      <div>
+        <span class="color_blocks" @click="clear(6)"></span>
+        <span>未施工</span>
+      </div>
     </div>
+    <wbsList1 ref="wbsList1" />
+    <nearby ref="nearby" />
   </div>
 </template>
 
@@ -24,13 +51,15 @@
 window._AMapSecurityConfig = {
   securityJsCode: "e4d90f3ec296c424d53c09c42fd024de",
 };
-import Vue from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
+import wbsList1 from "./WBS/wbsList1.vue";
+import nearby from "./nearby/nearby.vue";
 export default {
   name: "MapContainer",
-  // props: {
-  //   msg: String,
-  // },
+  components: {
+    wbsList1,
+    nearby,
+  },
   data() {
     return {
       //此处不声明 map 对象，可以直接使用 this.map赋值或者采用非响应式的普通对象来存储。
@@ -45,19 +74,22 @@ export default {
           longitude: 121.311381,
         },
       },
-
+      curve1: "",
+      curve2: "",
+      curve3: "",
+      curve4: "",
+      curve5: "",
+      curve6: "",
       bezierCurve1: {
         path: [
           // 起点
-          [121.8153, 29.49],
-          [121.821, 29.497, 121.8245, 29.50674],
-          // [121.825, 29.51, 121.8306, 29.52],
-          // [121.838, 29.5346, 121.8351, 29.539],
+          [121.8306, 29.52],
+          [121.838, 29.5346, 121.8351, 29.539],
         ],
         isOutline: true,
         outlineColor: "none",
         borderWeight: 3,
-        strokeColor: "#01E888",
+        strokeColor: "#079ae5",
         strokeOpacity: 1,
         strokeWeight: 8,
         // 线样式还支持 'dashed'
@@ -68,7 +100,6 @@ export default {
         lineCap: "round",
         zIndex: 50,
       },
-      curve1: "",
       bezierCurve2: {
         path: [
           // 起点
@@ -78,7 +109,7 @@ export default {
         isOutline: true,
         outlineColor: "none",
         borderWeight: 3,
-        strokeColor: "#079AE5",
+        strokeColor: "#028566",
         strokeOpacity: 1,
         strokeWeight: 8,
         // 线样式还支持 'dashed'
@@ -89,12 +120,11 @@ export default {
         lineCap: "round",
         zIndex: 50,
       },
-      curve2: "",
       bezierCurve3: {
         path: [
           // 起点
-          [121.8306, 29.52],
-          [121.838, 29.5346, 121.8351, 29.539],
+          [121.8153, 29.49],
+          [121.821, 29.497, 121.8245, 29.50674],
         ],
         isOutline: true,
         outlineColor: "none",
@@ -110,7 +140,66 @@ export default {
         lineCap: "round",
         zIndex: 50,
       },
-      curve3: "",
+      bezierCurve4: {
+        path: [
+          // 起点
+          [121.8107, 29.4786],
+          [121.8123, 29.4875, 121.8153, 29.49],
+        ],
+        isOutline: true,
+        outlineColor: "none",
+        borderWeight: 3,
+        strokeColor: "#ed8506",
+        strokeOpacity: 1,
+        strokeWeight: 8,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        strokeDasharray: [10, 10],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 50,
+      },
+      bezierCurve5: {
+        path: [
+          // 起点
+          [121.81, 29.4689],
+          [121.81, 29.4752, 121.8107, 29.4786],
+        ],
+        isOutline: true,
+        outlineColor: "none",
+        borderWeight: 3,
+        strokeColor: "#01e888",
+        strokeOpacity: 1,
+        strokeWeight: 8,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        strokeDasharray: [10, 10],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 50,
+      },
+      bezierCurve6: {
+        path: [
+          // 起点
+          [121.8145, 29.46],
+          [121.8102, 29.4668, 121.81, 29.4689],
+        ],
+        isOutline: true,
+        outlineColor: "none",
+        borderWeight: 3,
+        strokeColor: "#a1accb",
+        strokeOpacity: 1,
+        strokeWeight: 8,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        strokeDasharray: [10, 10],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 50,
+      },
       count: 0,
     };
   },
@@ -181,34 +270,52 @@ export default {
       AMap.plugin("AMap.Marker", () => {
         var startIcon = new AMap.Icon({
           // 图标尺寸
-          size: new AMap.Size(44, 48),
+          size: new AMap.Size(100, 100),
           // 图标的取图地址
-          image:
-            "https://img1.imgtp.com/2022/09/01/cEI5mRcu.png",
+          image: "https://img1.imgtp.com/2022/09/01/cEI5mRcu.png",
           // 图标所用图片大小
           imageSize: new AMap.Size(44, 48),
           // 图标取图偏移量
-          // imageOffset: new AMap.Pixel(10 , 10),
+          imageOffset: new AMap.Pixel(-22, -48),
         });
 
-
         var marker1 = new AMap.Marker({
-          position: new AMap.LngLat(121.8308, 29.5462),
+          position: new AMap.LngLat(121.8351, 29.539),
           icon: startIcon,
         });
         var marker2 = new AMap.Marker({
-          position: new AMap.LngLat(121.8270, 29.5268),
+          position: new AMap.LngLat(121.8306, 29.52),
           icon: startIcon,
         });
         var marker3 = new AMap.Marker({
-          position: new AMap.LngLat(121.8205, 29.5135),
+          position: new AMap.LngLat(121.8245, 29.50674),
           icon: startIcon,
         });
         var marker4 = new AMap.Marker({
-          position: new AMap.LngLat(121.8117, 29.4970),
+          position: new AMap.LngLat(121.8153, 29.49),
           icon: startIcon,
         });
-        var markerList = [marker1, marker2, marker3, marker4];
+        var marker5 = new AMap.Marker({
+          position: new AMap.LngLat(121.8107, 29.4786),
+          icon: startIcon,
+        });
+        var marker6 = new AMap.Marker({
+          position: new AMap.LngLat(121.81, 29.4689),
+          icon: startIcon,
+        });
+        var marker7 = new AMap.Marker({
+          position: new AMap.LngLat(121.8145, 29.46),
+          icon: startIcon,
+        });
+        var markerList = [
+          marker1,
+          marker2,
+          marker3,
+          marker4,
+          marker5,
+          marker6,
+          marker7,
+        ];
         _th.map.add(markerList);
       });
     },
@@ -219,9 +326,15 @@ export default {
         _th.curve1 = new AMap.BezierCurve(_th.bezierCurve1);
         _th.curve2 = new AMap.BezierCurve(_th.bezierCurve2);
         _th.curve3 = new AMap.BezierCurve(_th.bezierCurve3);
+        _th.curve4 = new AMap.BezierCurve(_th.bezierCurve4);
+        _th.curve5 = new AMap.BezierCurve(_th.bezierCurve5);
+        _th.curve6 = new AMap.BezierCurve(_th.bezierCurve6);
         _th.map.add(_th.curve1);
         _th.map.add(_th.curve2);
         _th.map.add(_th.curve3);
+        _th.map.add(_th.curve4);
+        _th.map.add(_th.curve5);
+        _th.map.add(_th.curve6);
         // 缩放地图到合适的视野级别
         // _th.map.setFitView([bezierCurve]);
       });
@@ -236,19 +349,41 @@ export default {
             _th.map.remove(_th.curve1);
           } else if (num == 2) {
             _th.map.remove(_th.curve2);
-          } else {
+          } else if (num == 3) {
             _th.map.remove(_th.curve3);
+          } else if (num == 4) {
+            _th.map.remove(_th.curve4);
+          } else if (num == 5) {
+            _th.map.remove(_th.curve5);
+          } else if (num == 6) {
+            _th.map.remove(_th.curve6);
           }
         } else {
           if (num == 1) {
             _th.map.add(_th.curve1);
           } else if (num == 2) {
             _th.map.add(_th.curve2);
-          } else {
+          } else if (num == 3) {
             _th.map.add(_th.curve3);
+          } else if (num == 4) {
+            _th.map.add(_th.curve4);
+          } else if (num == 5) {
+            _th.map.add(_th.curve5);
+          } else if (num == 6) {
+            _th.map.add(_th.curve6);
           }
         }
       });
+    },
+
+    wbsList1() {
+      this.$refs.wbsList1.show = true;
+      this.$refs.wbsList1.isShow = true;
+    },
+
+    nearby() {
+      this.$refs.nearby.show = true;
+      this.$refs.nearby.isShow = true;
     },
   },
   mounted() {
@@ -275,7 +410,7 @@ export default {
   height: 150px;
   border-radius: 10px;
   padding: 10px;
-  line-height: 35px;
+  line-height: 25px;
   div {
     display: flex;
     align-items: center;
@@ -290,38 +425,61 @@ export default {
   }
   div:first-child {
     .color_blocks {
-      background-color: #feee04;
+      background-color: #079ae5;
     }
   }
   div:nth-child(2) {
     .color_blocks {
-      background-color: #079ae5;
+      background-color: #028566;
     }
   }
   div:nth-child(3) {
     .color_blocks {
+      background-color: #feee04;
+    }
+  }
+  div:nth-child(4) {
+    .color_blocks {
+      background-color: #ed8506;
+    }
+  }
+  div:nth-child(5) {
+    .color_blocks {
       background-color: #01e888;
     }
   }
+  div:nth-child(6) {
+    .color_blocks {
+      background-color: #a1accb;
+    }
+  }
 }
-/* #panel {
+#btn_box {
   position: fixed;
-  background-color: white;
-  max-height: 90%;
-  overflow-y: auto;
-  top: 10px;
-  right: 10px;
-  width: 100px;
-  height: 300px;
+  top: 228px;
+  right: 20px;
+  .btn {
+    width: 48px;
+    height: 48px;
+    background-color: #fff;
+    border-radius: 9px;
+    margin-bottom: 10px;
+    color: #919ba5;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 8px 0 rgba(74, 116, 177, 0.3);
+    img {
+      width: 23px;
+      height: auto;
+      display: block;
+      margin-bottom: 2px;
+    }
+  }
 }
-#panel .amap-call {
-  background-color: #009cf9;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+/deep/.amap-icon {
+  overflow: visible !important;
 }
-#panel .amap-lib-driving {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  overflow: hidden;
-} */
 </style>

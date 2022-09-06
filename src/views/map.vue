@@ -80,7 +80,6 @@ export default {
       // 可以通过 close-on-click-action 属性开启自动收起
       this.show = false;
     },
-
     showPopup() {
       this.isShow = true;
     },
@@ -91,7 +90,6 @@ export default {
       this.isShow = false;
       this.date = this.formatDate(date);
     },
-
     toList() {
       this.$router.push("/list");
     },
